@@ -27,7 +27,7 @@
 
   "Functions passed to alter may depend on the data in the ref"
   (= 20 (do
-          (dosync (alter the-world (fn [_] 20)))))
+          (dosync (alter the-world (fn [t-w] (+ t-w 20))))))
 
   "Two worlds are better than one"
   (= ["Real Jerry" "Bizarro Jerry"]
@@ -36,7 +36,7 @@
          (ref-set the-world {})
          (alter the-world assoc :jerry "Real Jerry")
          (alter bizarro-world assoc :jerry "Bizarro Jerry")
-         [(get @the-world :jerry), (get @bizarro-world :jerry)]
+         (map :jerry [@the-world @bizarro-world])
          ))
          ))
 
